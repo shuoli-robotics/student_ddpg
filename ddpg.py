@@ -38,11 +38,32 @@ class DDPG(object):
         actions = batch['actions']
         states_t = batch['next_observations']
 
-        ''''
-        Add your code here!
-        Basically, you have to compute the DDPG losses and do the training step
-        using the optimizers.
-        ''''
+        # ''''
+
+        # predict Q': s' -> |ActorNet'| -> a' -> | QNet'| -> Q'
+        actions_dot = self._target_policy_net(states_t)
+        Q_dot = self._target_q_net(states_t,actions_dot)
+
+        # predict Q: (s,a) ->  | QNet| -> Q
+        Q = self._q_net(states,actions)
+
+        # compute loss
+        optimizer = torch.optim.Adam(self._q_net.parameters(), lr=self._q_learning_rate)
+        criterion = torch.nn.MSELoss()
+        loss = criterion(Q,rewards+self._discount*Q_dot)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # update action net
+        optimizer = torch.optim.Adam(self._policy_net.parameters(), lr=self._policy_learning_rate)
+        optimizer.zero_grad()
+        policy_loss = -self._q_net(states, self._policy_net(states))
+        policy_loss = policy_loss.mean()
+        policy_loss.backward()
+        optimizer.step()
+
+        # ''''
 
         # Target network updates
         soft_update_from_to(
