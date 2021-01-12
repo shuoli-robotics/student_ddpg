@@ -17,6 +17,9 @@ class DDPG(object):
 
         self._policy_optimizer, self._q_optimizer = get_optimizer(policy=self._policy_net, value=self._q_net)
 
+        self.optimizer1 = torch.optim.Adam(self._q_net.parameters(), lr=self._q_learning_rate)
+        self.optimizer2 = torch.optim.Adam(self._policy_net.parameters(), lr=self._policy_learning_rate)
+
         soft_update_from_to(
             source=self._policy_net ,
             target=self._target_policy_net,
@@ -48,20 +51,20 @@ class DDPG(object):
         Q = self._q_net(states,actions)
 
         # compute loss
-        optimizer = torch.optim.Adam(self._q_net.parameters(), lr=self._q_learning_rate)
+        
         criterion = torch.nn.MSELoss()
         loss = criterion(Q,rewards+self._discount*Q_dot)
-        optimizer.zero_grad()
+        self.optimizer1.zero_grad()
         loss.backward()
-        optimizer.step()
+        self.optimizer1.step()
 
         # update action net
-        optimizer = torch.optim.Adam(self._policy_net.parameters(), lr=self._policy_learning_rate)
-        optimizer.zero_grad()
+        
+        self.optimizer2.zero_grad()
         policy_loss = -self._q_net(states, self._policy_net(states))
         policy_loss = policy_loss.mean()
         policy_loss.backward()
-        optimizer.step()
+        self.optimizer2.step()
 
         # ''''
 
