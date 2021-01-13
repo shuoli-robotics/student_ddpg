@@ -7,13 +7,13 @@ import hashlib, os, csv
 import ddpg
 import networks
 import torch
-from Env.pybullet_adapted.gym_locomotion_envs import HalfCheetahBulletEnv as Env
+from ksluck_sim_private.pybullet_ksluck.anymal_envs import Anymal as Env
 
 class Trainer(object):
     def __init__(self):
 
         # Create the environment and render
-        self._env = Env(True)
+        self._env = Env()
         # Extract the dimesions of states and actions
         observation_dim = self._env.observation_space.low.size
         action_dim = self._env.action_space.low.size
