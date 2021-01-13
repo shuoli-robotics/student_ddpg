@@ -8,6 +8,7 @@ import ddpg
 import networks
 import torch
 from ksluck_sim_private.pybullet_ksluck.anymal_envs import Anymal as Env
+# from Env.pybullet_adapted.gym_locomotion_envs import HalfCheetahBulletEnv as Env
 
 class Trainer(object):
     def __init__(self):
