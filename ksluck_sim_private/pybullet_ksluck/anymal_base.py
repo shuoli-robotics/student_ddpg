@@ -36,7 +36,7 @@ class AnymalRobot(URDFBasedRobot):
         obs_dim=obs_dim,
         basePosition=[0, 0, initial_height],
         baseOrientation=[0, 0, 0, 1],
-        fixed_base=True,
+        fixed_base=False,
         self_collision=self_collision)
 
     self.power = 1.0
@@ -163,7 +163,6 @@ class AnymalRobot(URDFBasedRobot):
     body_angular_velocity = np.array([vr, vp, vz])
 
     obs = np.concatenate(([height],base_velocity,base_orientation_euler,body_angular_velocity,joint_positions,joint_velocities))
-
     return obs
     # return {
     #     'Height': height,

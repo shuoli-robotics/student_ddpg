@@ -68,8 +68,7 @@ class PolicyNetwork(nn.Module):
         self.last_layer = nn.Linear(inp_size, output_size)
 
     def forward(self, state):
-        input = state
-
+        input = state.float()
         for layer in self._layers:
             output = layer(input)
             output = self.activation(output)

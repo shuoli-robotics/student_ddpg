@@ -27,8 +27,8 @@ class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
     if (self.stateId >= 0):
       print("restoreState self.stateId:",self.stateId)
       self._p.restoreState(self.stateId)
-    else:
-      r = MJCFBaseBulletEnv.reset(self)
+    
+    r = MJCFBaseBulletEnv.reset(self)
     self._p.configureDebugVisualizer(pybullet.COV_ENABLE_RENDERING, 0)
 
     self.parts, self.jdict, self.ordered_joints, self.robot_body = self.robot.addToScene(
