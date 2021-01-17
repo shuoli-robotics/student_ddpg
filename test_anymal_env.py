@@ -1,4 +1,4 @@
-from ksluck_sim_private.pybullet_ksluck.anymal_envs import Anymal as Env
+from anymal_walking_envs.anymal_walking_env import AnymalWalkEnv as Env
 import numpy as np
 
 env = Env()
@@ -9,7 +9,7 @@ print(env.observation_space)
 for i in range(2):
     states = env.reset()
     temp = 1
-    for j in range(200):
+    for j in range(20):
         action = np.random.rand(12)
         state, reward, terminal, info = env.step(action)
 

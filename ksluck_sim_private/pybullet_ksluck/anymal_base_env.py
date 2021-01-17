@@ -2,7 +2,7 @@ from pybullet_envs.scene_stadium import SinglePlayerStadiumScene
 from pybullet_envs.env_bases import MJCFBaseBulletEnv
 import numpy as np
 import pybullet
-from anymal_base import AnymalRobot
+# from anymal_base import AnymalRobot
 
 
 class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
