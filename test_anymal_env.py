@@ -6,12 +6,14 @@ states = env.reset()
 
 print(env.observation_space)
 
-for i in range(2):
+for i in range(20):
     states = env.reset()
     temp = 1
-    for j in range(20):
-        action = np.random.rand(12)
+    for j in range(200):
+        action = np.zeros(12)
+        action[0] = 0.1
         state, reward, terminal, info = env.step(action)
+        temp = 1
 
 
 
