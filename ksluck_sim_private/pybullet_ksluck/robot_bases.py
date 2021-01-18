@@ -397,8 +397,8 @@ class Joint:
                                   controlMode=pybullet.POSITION_CONTROL,
                                   targetPosition=tpos,
                                   force=self.torque_limit,
-                                  positionGain=0.1,
-                                  velocityGain=0.1)
+                                  positionGain=kp,
+                                  velocityGain=kd)
 
   def reset_current_position(self, position, velocity):  # just some synonyme method
     self.reset_position(position, velocity)

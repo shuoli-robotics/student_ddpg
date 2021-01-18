@@ -36,7 +36,7 @@ class AnymalRobot(URDFBasedRobot):
         obs_dim=obs_dim,
         basePosition=[0, 0, initial_height],
         baseOrientation=[0, 0, 0, 1],
-        fixed_base=False,
+        fixed_base=True,
         self_collision=self_collision)
 
     self.power = 1.0
