@@ -36,7 +36,7 @@ class AnymalRobot(URDFBasedRobot):
         obs_dim=obs_dim,
         basePosition=[0, 0, initial_height],
         baseOrientation=[0, 0, 0, 1],
-        fixed_base=True,
+        fixed_base=False,
         self_collision=self_collision)
 
     self.power = 1.0
@@ -162,17 +162,15 @@ class AnymalRobot(URDFBasedRobot):
           dummy_base.bodies[dummy_base.bodyIndex], dummy_base.bodyPartIndex, computeLinkVelocity=1)
     body_angular_velocity = np.array([vr, vp, vz])
 
-    obs = np.concatenate(([height],base_velocity,base_orientation_euler,body_angular_velocity,joint_positions,joint_velocities))
-    return obs
-    # return {
-    #     'Height': height,
-    #     'z-axis': base_orientation_euler,
-    #     'joint angles': joint_positions,
-    #     'body linear velocities' : base_velocity,
-    #     'body angular velocities' : body_angular_velocity,
-    #     'joint velocities': joint_velocities,
+    return {
+        'Height': height,
+        'z-axis': base_orientation_euler,
+        'joint angles': joint_positions,
+        'body linear velocities' : base_velocity,
+        'body angular velocities' : body_angular_velocity,
+        'joint velocities': joint_velocities,
 
-    # }
+    }
 
   def calc_potential(self):
     # Just ignore this function

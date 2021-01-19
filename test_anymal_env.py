@@ -3,12 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 env = Env()
-states = env.reset()
+states = env.reset([0.5,0.5,0])
 
 print(env.observation_space)
 
 for i in range(20):
-    states = env.reset()
+    states = env.reset([0.5,0.5,0])
     temp = 1
     jointPositionCommand = []
     realJointPosition = []
@@ -29,4 +29,6 @@ for i in range(20):
 
 
 temp = 1
+
+from Env.pybullet_adapted.gym_locomotion_envs import HalfCheetahBulletEnv as Env
 
