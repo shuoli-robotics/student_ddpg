@@ -19,6 +19,7 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
         state = self.robot.calc_state()  # also calculates self.joints_at_limit
         done = self._isDone()
+        rest_states = self.robot.calc_rest_states_for_reward()
 
         reward = 1.0/ abs(state[1]-1.0)
 

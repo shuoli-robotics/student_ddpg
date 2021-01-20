@@ -160,3 +160,10 @@ class AnymalWalkRobot(AnymalRobot):
             (base_orientation_euler[0:2],[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
              joint_pos_at_1,joint_pos_at_2,joint_vel_at_1,joint_vel_at_2,self.action_history[-2],self.cmd))
         return obs
+
+    def calc_rest_states_for_reward(self):
+        joint_torch = [j.get_torch() for j in self.ordered_joints]
+        foot_position = [self.parts['LF_ADAPTER'].get_position(),self.parts['RF_ADAPTER'].get_position(),
+                         self.parts['LH_ADAPTER'].get_position(),self.parts['RH_ADAPTER'].get_position()]
+        foot_position_z = [foot_position[0][2],foot_position[1][2],foot_position[2][2],foot_position[3][2]]
+        return joint_torch

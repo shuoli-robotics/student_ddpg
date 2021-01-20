@@ -370,6 +370,10 @@ class Joint:
     _, vx = self.get_state()
     return vx
 
+  def get_torch(self):
+      _,_,_,torch = self._p.getJointState(self.bodies[self.bodyIndex], self.jointIndex)
+      return torch
+
   def set_position(self, position):
     self._p.setJointMotorControl2(self.bodies[self.bodyIndex],
                                   self.jointIndex,
