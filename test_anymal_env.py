@@ -12,7 +12,7 @@ for i in range(20):
     temp = 1
     jointPositionCommand = []
     realJointPosition = []
-    for j in range(200):
+    for j in range(2000):
         action = np.zeros(12)
         action[0] = 0.01
         jointPositionCommand.append(action[0])
@@ -23,7 +23,7 @@ for i in range(20):
     plt.figure(1)
     plt.plot(jointPositionCommand)
     plt.plot(realJointPosition)
-    plt.show()
+    # plt.show()
     temp = 1
 
 
