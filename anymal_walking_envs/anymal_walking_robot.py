@@ -111,7 +111,8 @@ class AnymalWalkRobot(AnymalRobot):
         elif self._control_mode == 'pd_control':
             # motor_commands = self._compute_pd_control(a)
             for n, j in enumerate(self.ordered_joints):
-                joint_pos = self.convert2pos(a[n],j.upperLimit,j.lowerLimit)
+                # joint_pos = self.convert2pos(a[n],j.upperLimit,j.lowerLimit)
+                joint_pos = a[n]
                 # Tune joint position controller's PD here
                 j.set_pd_torque(joint_pos, 0.1, 0.5)
         else:
@@ -194,5 +195,7 @@ class AnymalWalkRobot(AnymalRobot):
                                  'rate': body_angular_velocity, 'joint_pos':joint_positions,'joint_vel':joint_velocities,
                                  'joint_torque':joint_torque,'foot_pos_z':foot_position_z,'foot_vel':foot_vel,'vel_cmd':self.cmd,'gravity_vector':gravity_b,
                                  'delta_joint_torque':self.joint_torque_history[self.joint_torque_history_pointer] - self.joint_torque_history[self.joint_torque_history_pointer-1]}
+
+        base_contact_list = self.parts['anymal'].contact_list()
 
         return obs,anymal_state_dict

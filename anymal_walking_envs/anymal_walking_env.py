@@ -22,6 +22,8 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
         self.k_c = 0.3
         self.robot.cmd = robot_cmd
 
+        return self.robot.calc_state()
+
     def step(self, a):
         self.step_counter += 1
         self.robot.apply_action(a)
@@ -34,11 +36,12 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
         return obs, reward, bool(done), {}
 
     def calc_reward(self,state_dict):
-        self.k_c = self.k_c ** self.k_d
+        # self.k_c = self.k_c ** self.k_d
+        self.k_c = 0.997
 
         deltaT = self.scene.timestep
 
-        c_w = -6*deltaT
+        c_w = 6*deltaT
         c_v1 = -10 * deltaT
         c_v2 = -4 * deltaT
         c_tau = 0.005*deltaT
@@ -69,7 +72,12 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
         smoothness_cost = self.k_c * c_s * LA.norm(state_dict['delta_joint_torque'])
 
-        return rate_cost+vel_cost+torque_cost+joint_speed_cost+clearance_cost+foot_slip_cost+orientation_cost+smoothness_cost
+
+
+
+
+        # return rate_cost+vel_cost+torque_cost+joint_speed_cost+clearance_cost+foot_slip_cost+orientation_cost+smoothness_cost
+        return vel_cost
 
     def logistic_kernel(self,x):
         return -1.0 / (exp(x) + 2 + exp(-x))

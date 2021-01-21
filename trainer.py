@@ -63,9 +63,9 @@ class Trainer(object):
 
     def collect_training_data(self, noise=False, std=0.2):
         # Number of steps per episode - 300 is okay, but you might want to increase it
-        nmbr_steps = 300
+        nmbr_steps = 3000
 
-        current_state = self._env.reset()
+        current_state,_ = self._env.reset([0.5,0,0])
 
         cum_reward = 0
 
@@ -78,7 +78,7 @@ class Trainer(object):
                 # We add just some random noise to the action
                 action = action + np.random.normal(scale=std, size=action.shape)
                 # we have to make sure the action is still in the range [-1,1]
-                action = np.clip(action, -1.0, 1.0)
+                # action = np.clip(action, -1.0, 1.0)
 
             # Make a step in the environment with the action and receive the next state, a reward and terminal
             state, reward, terminal, info = self._env.step(action)
