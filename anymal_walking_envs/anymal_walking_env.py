@@ -2,7 +2,7 @@ from ksluck_sim_private.pybullet_ksluck.anymal_base_env import AnymalBaseBulletE
 from anymal_walking_envs.anymal_walking_robot import AnymalWalkRobot
 import pybullet
 from pybullet_envs.env_bases import MJCFBaseBulletEnv
-from math import exp
+from math import exp,cos
 from numpy import linalg as LA
 from scipy.spatial.transform import Rotation as R
 
@@ -30,8 +30,6 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
         done = self._isDone()
 
         reward = self.calc_reward(state_dict)
-
-        temp = 1
 
         return obs, reward, bool(done), {}
 
@@ -67,10 +65,7 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
         foot_slip_cost = self.k_c * c_fv * LA.norm(state_dict['foot_vel'][0])
 
-        r = R.from_euler('zyx', [0.0,state_dict['foot_vel'][1],state_dict['foot_vel'][2]], degrees=False)
-        r_vec = r.as_rotvec()
-        r_vec_unit = r_vec / LA.norm(r_vec)
-        orientation_cost = self.k_c*c_o * LA.norm([0,0,-1] - r_vec_unit)
+        orientation_cost = self.k_c*c_o * LA.norm([0,0,-1] - state_dict['gravity_vector'])
 
         smoothness_cost = self.k_c * c_s * LA.norm(state_dict['delta_joint_torque'])
 

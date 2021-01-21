@@ -4,6 +4,7 @@ import numpy as np
 import os,inspect
 import pybullet_data
 from numpy import linalg as LA
+from scipy.spatial.transform import Rotation as R
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
@@ -27,7 +28,7 @@ class AnymalWalkRobot(AnymalRobot):
         ]
         self._control_mode = 'pd_control'
         action_dim = 12
-        obs_dim = 96
+        obs_dim = 97
         self_collision = False
         initial_height = 0.7
         URDFBasedRobot.__init__(self,
@@ -133,6 +134,10 @@ class AnymalWalkRobot(AnymalRobot):
         joint_positions = [j.get_position() for j in self.ordered_joints]
         joint_velocities = [j.get_velocity() for j in self.ordered_joints]
 
+        r = R.from_euler('zyx', [0.0, base_orientation_euler[1], base_orientation_euler[2]], degrees=False)
+        gravity_b = r.apply([0, 0, -1])
+
+
         # Handle joints history
         self.joint_history_pointer = self.joint_history_pointer + 1
         self.joint_pos_history[self.joint_history_pointer] = joint_positions
@@ -160,9 +165,8 @@ class AnymalWalkRobot(AnymalRobot):
             dummy_base.bodies[dummy_base.bodyIndex], dummy_base.bodyPartIndex, computeLinkVelocity=1)
         body_angular_velocity = np.array([vr, vp, vz])
 
-        # todo: change euler expression to vector
         obs = np.concatenate(
-            (base_orientation_euler[0:2],[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
+            (gravity_b,[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
              joint_pos_at_1,joint_pos_at_2,joint_vel_at_1,joint_vel_at_2,self.action_history[-2],self.cmd))
 
         joint_torque = [j.get_torch() for j in self.ordered_joints]
@@ -182,13 +186,13 @@ class AnymalWalkRobot(AnymalRobot):
                                  'rate': body_angular_velocity, 'joint_pos': joint_positions,
                                  'joint_vel': joint_velocities,
                                  'joint_torque': joint_torque, 'foot_pos_z': foot_position_z, 'foot_vel': foot_vel,
-                                 'vel_cmd': self.cmd,
+                                 'vel_cmd': self.cmd,'gravity_vector':gravity_b,
                                  'delta_joint_torque': np.zeros((1,12))}
         else:
 
             anymal_state_dict = {'pos':base_position, 'vel':base_velocity,'att':base_orientation_euler,
                                  'rate': body_angular_velocity, 'joint_pos':joint_positions,'joint_vel':joint_velocities,
-                                 'joint_torque':joint_torque,'foot_pos_z':foot_position_z,'foot_vel':foot_vel,'vel_cmd':self.cmd,
+                                 'joint_torque':joint_torque,'foot_pos_z':foot_position_z,'foot_vel':foot_vel,'vel_cmd':self.cmd,'gravity_vector':gravity_b,
                                  'delta_joint_torque':self.joint_torque_history[self.joint_torque_history_pointer] - self.joint_torque_history[self.joint_torque_history_pointer-1]}
 
         return obs,anymal_state_dict

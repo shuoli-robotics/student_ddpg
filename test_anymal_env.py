@@ -18,13 +18,12 @@ for i in range(20):
         jointPositionCommand.append(action[0])
         realJointPosition.append(env.robot.ordered_joints[0].current_position()[0])
         state, reward, terminal, info = env.step(action)
-        temp = 1
-
-    plt.figure(1)
-    plt.plot(jointPositionCommand)
-    plt.plot(realJointPosition)
-    # plt.show()
-    temp = 1
+    #
+    # plt.figure(1)
+    # plt.plot(jointPositionCommand)
+    # plt.plot(realJointPosition)
+    # # plt.show()
+    # temp = 1
 
 
 
