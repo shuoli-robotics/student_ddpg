@@ -1,9 +1,9 @@
 from ksluck_sim_private.pybullet_ksluck.anymal_base import AnymalRobot
 from ksluck_sim_private.pybullet_ksluck.robot_bases import URDFBasedRobot
 import numpy as np
-import queue as q
 import os,inspect
 import pybullet_data
+from numpy import linalg as LA
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
@@ -80,8 +80,10 @@ class AnymalWalkRobot(AnymalRobot):
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
         self.action_history = np.zeros((5000,12))
+        self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
+        self.joint_torque_history_pointer = -1
         self.history_steps_1 = 20
         self.history_steps_2 = self.history_steps_1 * 2
         self.cmd = [1, 0.5, 0]
@@ -91,8 +93,10 @@ class AnymalWalkRobot(AnymalRobot):
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
         self.action_history = np.zeros((5000,12))
+        self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
+        self.joint_torque_history_pointer = -1
         return s
 
     def apply_action(self, a):
@@ -156,14 +160,35 @@ class AnymalWalkRobot(AnymalRobot):
             dummy_base.bodies[dummy_base.bodyIndex], dummy_base.bodyPartIndex, computeLinkVelocity=1)
         body_angular_velocity = np.array([vr, vp, vz])
 
+        # todo: change euler expression to vector
         obs = np.concatenate(
             (base_orientation_euler[0:2],[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
              joint_pos_at_1,joint_pos_at_2,joint_vel_at_1,joint_vel_at_2,self.action_history[-2],self.cmd))
-        return obs
 
-    def calc_rest_states_for_reward(self):
-        joint_torch = [j.get_torch() for j in self.ordered_joints]
-        foot_position = [self.parts['LF_ADAPTER'].get_position(),self.parts['RF_ADAPTER'].get_position(),
-                         self.parts['LH_ADAPTER'].get_position(),self.parts['RH_ADAPTER'].get_position()]
-        foot_position_z = [foot_position[0][2],foot_position[1][2],foot_position[2][2],foot_position[3][2]]
-        return joint_torch
+        joint_torque = [j.get_torch() for j in self.ordered_joints]
+        self.joint_torque_history_pointer += 1
+        self.joint_torque_history[self.joint_torque_history_pointer] = joint_torque
+
+        foot_position = [self.parts['LF_ADAPTER'].get_position(), self.parts['RF_ADAPTER'].get_position(),
+                         self.parts['LH_ADAPTER'].get_position(), self.parts['RH_ADAPTER'].get_position()]
+        foot_position_z = [foot_position[0][2], foot_position[1][2], foot_position[2][2], foot_position[3][2]]
+
+        foot_vel = [LA.norm(self.parts['LF_ADAPTER'].speed()[0:2]),
+                    LA.norm(self.parts['RF_ADAPTER'].speed()[0:2]),
+                    LA.norm(self.parts['LH_ADAPTER'].speed()[0:2]),
+                    LA.norm(self.parts['RH_ADAPTER'].speed()[0:2])]
+        if self.joint_torque_history_pointer < 1:
+            anymal_state_dict = {'pos': base_position, 'vel': base_velocity, 'att': base_orientation_euler,
+                                 'rate': body_angular_velocity, 'joint_pos': joint_positions,
+                                 'joint_vel': joint_velocities,
+                                 'joint_torque': joint_torque, 'foot_pos_z': foot_position_z, 'foot_vel': foot_vel,
+                                 'vel_cmd': self.cmd,
+                                 'delta_joint_torque': np.zeros((1,12))}
+        else:
+
+            anymal_state_dict = {'pos':base_position, 'vel':base_velocity,'att':base_orientation_euler,
+                                 'rate': body_angular_velocity, 'joint_pos':joint_positions,'joint_vel':joint_velocities,
+                                 'joint_torque':joint_torque,'foot_pos_z':foot_position_z,'foot_vel':foot_vel,'vel_cmd':self.cmd,
+                                 'delta_joint_torque':self.joint_torque_history[self.joint_torque_history_pointer] - self.joint_torque_history[self.joint_torque_history_pointer-1]}
+
+        return obs,anymal_state_dict
