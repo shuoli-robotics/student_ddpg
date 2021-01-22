@@ -89,12 +89,12 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="LF_HAA" type="fixed">
+    <joint name="LF_HAA" type="revolute">
         <parent link="base"/>
         <child link="LF_HIP"/>
         <origin xyz="0.277 0.116 0.0"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -126,7 +126,7 @@
         <child link="LF_THIGH"/>
         <origin xyz="0.0635                    0.041                    0.0"/>
         <axis xyz="0 1 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <limit effort="80" lower="-0.8" upper="0.8" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -207,12 +207,12 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="RF_HAA" type="fixed">
+    <joint name="RF_HAA" type="revolute">
         <parent link="base"/>
         <child link="RF_HIP"/>
         <origin xyz="0.277 -0.116 0.0"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -244,7 +244,7 @@
         <child link="RF_THIGH"/>
         <origin xyz="0.0635                    -0.041                    0.0"/>
         <axis xyz="0 1 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <limit effort="80" lower="-0.8" upper="0.8" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -325,12 +325,12 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="LH_HAA" type="fixed">
+    <joint name="LH_HAA" type="revolute">
         <parent link="base"/>
         <child link="LH_HIP"/>
         <origin xyz="-0.277 0.116 0.0"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -362,7 +362,7 @@
         <child link="LH_THIGH"/>
         <origin xyz="-0.0635                    0.041                    0.0"/>
         <axis xyz="0 1 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <limit effort="80" lower="-0.8" upper="0.8" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -443,12 +443,12 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="RH_HAA" type="fixed">
+    <joint name="RH_HAA" type="revolute">
         <parent link="base"/>
         <child link="RH_HIP"/>
         <origin xyz="-0.277 -0.116 0.0"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
@@ -480,7 +480,7 @@
         <child link="RH_THIGH"/>
         <origin xyz="-0.0635                    -0.041                    0.0"/>
         <axis xyz="0 1 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <limit effort="80" lower="-0.8" upper="0.8" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
