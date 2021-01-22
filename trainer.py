@@ -63,7 +63,7 @@ class Trainer(object):
 
     def collect_training_data(self, noise=False, std=0.2):
         # Number of steps per episode - 300 is okay, but you might want to increase it
-        nmbr_steps = 3000
+        nmbr_steps = 250
 
         current_state,_ = self._env.reset([0.5,0,0])
 
