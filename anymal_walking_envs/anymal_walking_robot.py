@@ -27,8 +27,8 @@ class AnymalWalkRobot(AnymalRobot):
             'pd_control', 'torque', 'velocity', 'position'
         ]
         self._control_mode = 'pd_control'
-        action_dim = 12
-        obs_dim = 97
+        action_dim = 4
+        obs_dim = 37
         self_collision = False
         initial_height = 0.7
         URDFBasedRobot.__init__(self,
@@ -80,7 +80,7 @@ class AnymalWalkRobot(AnymalRobot):
 
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
-        self.action_history = np.zeros((5000,12))
+        self.action_history = np.zeros((5000,4))
         self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
@@ -93,7 +93,7 @@ class AnymalWalkRobot(AnymalRobot):
         s = super(AnymalWalkRobot,self).reset(bullet_client)
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
-        self.action_history = np.zeros((5000,12))
+        self.action_history = np.zeros((5000,4))
         self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
@@ -110,11 +110,15 @@ class AnymalWalkRobot(AnymalRobot):
                 j.set_motor_torque(self.power * j.power_coef * float(np.clip(a[n], -1, +1)))
         elif self._control_mode == 'pd_control':
             # motor_commands = self._compute_pd_control(a)
+            revolute_joint_counter = 0
             for n, j in enumerate(self.ordered_joints):
                 # joint_pos = self.convert2pos(a[n],j.upperLimit,j.lowerLimit)
-                joint_pos = a[n]
+                # joint_pos = a[n]
                 # Tune joint position controller's PD here
-                j.set_pd_torque(joint_pos, 0.1, 0.5)
+                if j.joint_name[3:] != 'HAA' and j.joint_name[3:] != 'KFE':
+                    joint_pos = self.convert2pos(a[revolute_joint_counter],j.upperLimit,j.lowerLimit)
+                    revolute_joint_counter += 1
+                    j.set_pd_torque(joint_pos, 0.1, 0.5)
         else:
             raise ValueError('No known control mode')
 
@@ -166,9 +170,18 @@ class AnymalWalkRobot(AnymalRobot):
             dummy_base.bodies[dummy_base.bodyIndex], dummy_base.bodyPartIndex, computeLinkVelocity=1)
         body_angular_velocity = np.array([vr, vp, vz])
 
-        obs = np.concatenate(
-            (gravity_b,[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
-             joint_pos_at_1,joint_pos_at_2,joint_vel_at_1,joint_vel_at_2,self.action_history[-2],self.cmd))
+        # obs = np.concatenate(
+        #     (gravity_b,[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
+        #      joint_pos_at_1,joint_pos_at_2,joint_vel_at_1,joint_vel_at_2,self.action_history[-2],self.cmd))
+
+        if self.action_history_pointer < 1:
+            obs = np.concatenate(
+                (base_orientation_euler[1:],[height] ,base_velocity, body_angular_velocity,joint_positions,joint_velocities,
+                 self.action_history[0]))
+        else:
+            obs = np.concatenate(
+                (base_orientation_euler[1:], [height], base_velocity, body_angular_velocity, joint_positions,
+                 joint_velocities,self.action_history[self.action_history_pointer-1]))
 
         joint_torque = [j.get_torch() for j in self.ordered_joints]
         self.joint_torque_history_pointer += 1

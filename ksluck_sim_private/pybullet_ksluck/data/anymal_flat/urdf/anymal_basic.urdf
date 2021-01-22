@@ -89,11 +89,11 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="LF_HAA" type="revolute">
+    <joint name="LF_HAA" type="fixed">
         <parent link="base"/>
         <child link="LF_HIP"/>
         <origin xyz="0.277 0.116 0.0"/>
-        <axis xyz="1 0 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -146,11 +146,11 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="LF_KFE" type="revolute">
+    <joint name="LF_KFE" type="fixed">
         <parent link="LF_THIGH"/>
         <child link="LF_SHANK"/>
         <origin xyz="0.0 0.109 -0.25"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -207,11 +207,11 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="RF_HAA" type="revolute">
+    <joint name="RF_HAA" type="fixed">
         <parent link="base"/>
         <child link="RF_HIP"/>
         <origin xyz="0.277 -0.116 0.0"/>
-        <axis xyz="1 0 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -264,11 +264,11 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="RF_KFE" type="revolute">
+    <joint name="RF_KFE" type="fixed">
         <parent link="RF_THIGH"/>
         <child link="RF_SHANK"/>
         <origin xyz="0.0 -0.109 -0.25"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -325,11 +325,11 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="LH_HAA" type="revolute">
+    <joint name="LH_HAA" type="fixed">
         <parent link="base"/>
         <child link="LH_HIP"/>
         <origin xyz="-0.277 0.116 0.0"/>
-        <axis xyz="1 0 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -382,11 +382,11 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="LH_KFE" type="revolute">
+    <joint name="LH_KFE" type="fixed">
         <parent link="LH_THIGH"/>
         <child link="LH_SHANK"/>
         <origin xyz="-0.0 0.109 -0.25"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -443,11 +443,11 @@
         </inertial>
     </link>
     <!-- Hip joint -->
-    <joint name="RH_HAA" type="revolute">
+    <joint name="RH_HAA" type="fixed">
         <parent link="base"/>
         <child link="RH_HIP"/>
         <origin xyz="-0.277 -0.116 0.0"/>
-        <axis xyz="1 0 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
@@ -500,11 +500,11 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="RH_KFE" type="revolute">
+    <joint name="RH_KFE" type="fixed">
         <parent link="RH_THIGH"/>
         <child link="RH_SHANK"/>
         <origin xyz="-0.0 -0.109 -0.25"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 0"/>
         <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
