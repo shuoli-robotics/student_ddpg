@@ -5,6 +5,7 @@ from pybullet_envs.env_bases import MJCFBaseBulletEnv
 from math import exp,cos
 from numpy import linalg as LA
 from scipy.spatial.transform import Rotation as R
+import math
 
 class AnymalWalkEnv(AnymalBaseBulletEnv):
     def __init__(self, **kwargs):
@@ -29,7 +30,7 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
         self.robot.apply_action(a)
         self.scene.global_step()
         obs,state_dict = self.robot.calc_state()  # also calculates self.joints_at_limit
-        done = self._isDone()
+        done = self._isDone(state_dict)
 
         reward = self.calc_reward(state_dict)
 
@@ -72,8 +73,14 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
         smoothness_cost = self.k_c * c_s * LA.norm(state_dict['delta_joint_torque'])
 
+        return max(state_dict['vel'][0] / 10.0, 0)
 
+    def _isDone(self,state_dict):
+        if  max(abs(i) for i in state_dict['att'][0:2]) > math.radians(45):
 
+            return True
+        else:
+            return False
 
 
         # return rate_cost+vel_cost+torque_cost+joint_speed_cost+clearance_cost+foot_slip_cost+orientation_cost+smoothness_cost

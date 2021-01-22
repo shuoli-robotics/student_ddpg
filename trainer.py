@@ -83,6 +83,9 @@ class Trainer(object):
             # Make a step in the environment with the action and receive the next state, a reward and terminal
             state, reward, terminal, info = self._env.step(action)
 
+            if terminal:
+                break
+
             # If we want to slow down the simulator
             if self._slow_simulation:
                 time.sleep(0.1)

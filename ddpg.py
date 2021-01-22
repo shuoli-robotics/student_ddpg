@@ -32,7 +32,7 @@ class DDPG(object):
         )
 
     def train(self, replay):
-        batch_size = 512
+        batch_size = 64
         batch = replay.random_batch(batch_size)
         batch = utils.batch_to_torch(batch, device=self._device)
         rewards = batch['rewards']
@@ -61,7 +61,7 @@ class DDPG(object):
         # update action net
         
         self.optimizer2.zero_grad()
-        policy_loss = self._q_net(states, self._policy_net(states))
+        policy_loss = -self._q_net(states, self._policy_net(states))
         policy_loss = policy_loss.mean()
         policy_loss.backward()
         self.optimizer2.step()
