@@ -28,9 +28,9 @@ class AnymalWalkRobot(AnymalRobot):
         ]
         self._control_mode = 'pd_control'
         action_dim = 8
-        obs_dim = 37
+        obs_dim = 41
         self_collision = False
-        initial_height = 0.7
+        initial_height = 0.6
         URDFBasedRobot.__init__(self,
                                 model_urdf=urdf_file_location,
                                 robot_name=self._robot_name,
@@ -38,7 +38,7 @@ class AnymalWalkRobot(AnymalRobot):
                                 obs_dim=obs_dim,
                                 basePosition=[0, 0, initial_height],
                                 baseOrientation=[0, 0, 0, 1],
-                                fixed_base=True,
+                                fixed_base=False,
                                 self_collision=self_collision)
 
         self.power = 1.0

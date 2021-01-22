@@ -13,9 +13,9 @@ for i in range(20):
     jointPositionCommand = []
     realJointPosition = []
     for j in range(2000):
-        # action = np.zeros(12)
+        action = np.zeros(8)
         # action[0] = 0.01
-        action = np.random.rand(8)
+        # action = np.random.rand(8)
         # jointPositionCommand.append(action[0])
         # realJointPosition.append(env.robot.ordered_joints[0].current_position()[0])
         state, reward, terminal, info = env.step(action)

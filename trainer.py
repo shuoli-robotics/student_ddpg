@@ -78,7 +78,7 @@ class Trainer(object):
                 # We add just some random noise to the action
                 action = action + np.random.normal(scale=std, size=action.shape)
                 # we have to make sure the action is still in the range [-1,1]
-                # action = np.clip(action, -1.0, 1.0)
+                action = np.clip(action, -1.0, 1.0)
 
             # Make a step in the environment with the action and receive the next state, a reward and terminal
             state, reward, terminal, info = self._env.step(action)
