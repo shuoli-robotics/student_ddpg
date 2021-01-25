@@ -21,7 +21,7 @@ class Trainer(object):
 
         self._device = 'cpu'
         # Uncomment if you do trianing on the GPU
-        # self._device = 'cuda:0'
+        self._device = 'cuda:0'
 
         hidden_sizes = [256] * 2
         self._q_net = networks.QvalueNetwork(hidden_sizes=hidden_sizes, input_size = observation_dim + action_dim).to(device=self._device)
@@ -83,8 +83,6 @@ class Trainer(object):
             # Make a step in the environment with the action and receive the next state, a reward and terminal
             state, reward, terminal, info = self._env.step(action)
 
-            if terminal:
-                break
 
             # If we want to slow down the simulator
             if self._slow_simulation:
@@ -98,9 +96,12 @@ class Trainer(object):
                 observation=current_state,
                 action=action,
                 reward=reward,
-                terminal=terminal,
+                terminal=0,
                next_observation=state,
                env_info = {})
+
+            if terminal:
+                break
 
             # The next current state
             current_state = state

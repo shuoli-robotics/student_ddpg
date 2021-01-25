@@ -77,6 +77,7 @@ class AnymalRobot(URDFBasedRobot):
             }
 
   def robot_specific_reset(self, bullet_client):
+    print("SHI33T")
     self._p = bullet_client
 
     # Reset Joints here
@@ -85,10 +86,16 @@ class AnymalRobot(URDFBasedRobot):
     self.scene.actor_introduce(self)
 
   def _reset_joint_positions(self):
+        print("SHI44T")
         for j in self.ordered_joints:
             pos = self._initial_joint_pos[j.joint_name]
             j.reset_position(pos, 0.0)
             j.set_torque(0.0)
+        for j in self.world_joints:
+            print(j)
+            pos = 0.001
+            j.reset_position(pos, 0.0)
+            # j.set_torque(0.0)
 
 
     # self.scene.actor_introduce(self)
@@ -156,7 +163,7 @@ class AnymalRobot(URDFBasedRobot):
     base_orientation_euler = self._p.getEulerFromQuaternion(base_orientation_quat)
     joint_positions = [j.get_position() for j in self.ordered_joints]
     joint_velocities = [j.get_velocity() for j in self.ordered_joints]
-    base_velocity = self.parts['anymal'].speed()
+    base_velocity = self.parts['base_inertia'].speed()
 
     (x, y, z), (a, b, c, d), _, _, _, _, (vx, vy, vz), (vr, vp, vy) = self._p.getLinkState(
           dummy_base.bodies[dummy_base.bodyIndex], dummy_base.bodyPartIndex, computeLinkVelocity=1)
@@ -176,11 +183,11 @@ class AnymalRobot(URDFBasedRobot):
     # Just ignore this function
     return 0.0
 
-  def _reset_joint_positions(self):
-        for j in self.ordered_joints:
-            pos = self._initial_joint_pos[j.joint_name]
-            j.reset_position(pos, 0.0)
-            j.set_torque(0.0)
+  # def _reset_joint_positions(self):
+  #       for j in self.ordered_joints:
+  #           pos = self._initial_joint_pos[j.joint_name]
+  #           j.reset_position(pos, 0.0)
+  #           j.set_torque(0.0)
 
   def set_initial_joint_positions(self, joint_dict):
         for name, val in joint_dict.items():

@@ -27,7 +27,7 @@ class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
     if (self.stateId >= 0):
       print("restoreState self.stateId:",self.stateId)
       self._p.restoreState(self.stateId)
-    
+
     r = MJCFBaseBulletEnv.reset(self)
     self._p.configureDebugVisualizer(pybullet.COV_ENABLE_RENDERING, 0)
 
@@ -39,6 +39,7 @@ class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
       print("saving state self.stateId:",self.stateId)
 
     self.camera_adjust()
+    self.robot.robot_specific_reset(self._p)
 
     return r
 

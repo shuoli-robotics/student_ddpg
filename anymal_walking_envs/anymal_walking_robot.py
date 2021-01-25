@@ -90,7 +90,7 @@ class AnymalWalkRobot(AnymalRobot):
         self.cmd = [1, 0.5, 0]
 
     def reset(self, bullet_client):
-        s = super(AnymalWalkRobot,self).reset(bullet_client)
+        s = super(AnymalRobot,self).reset(bullet_client)
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
         self.action_history = np.zeros((5000,8))

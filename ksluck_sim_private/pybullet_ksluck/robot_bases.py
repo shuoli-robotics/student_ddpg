@@ -21,6 +21,7 @@ class XmlBasedRobot:
     self.jdict = None
     self.ordered_joints = None
     self.robot_body = None
+    self.world_joints = []
 
     high = np.ones([action_dim])
     self.action_space = gym.spaces.Box(-high, high)
@@ -89,7 +90,12 @@ class XmlBasedRobot:
           self.robot_body = parts[self.robot_name]
 
         if joint_name[:6] == "ignore":
-          Joint(self._p, joint_name, bodies, i, j).disable_motor()
+          j = Joint(self._p, joint_name, bodies, i, j)
+          j.disable_motor()
+          print(joint_name)
+          if len(joint_name) > 11 and "world" in joint_name[7:12]:
+              print("append")
+              self.world_joints.append(j)
           continue
 
         if joint_name[:8] != "jointfix":
