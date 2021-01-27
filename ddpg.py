@@ -10,7 +10,7 @@ class DDPG(object):
 
         self._device = device
 
-        self._discount = 0.95
+        self._discount = 0.99
         self._policy_learning_rate = 1e-3
         self._q_learning_rate = 1e-3
         self._target_update_tau = tau
@@ -32,7 +32,7 @@ class DDPG(object):
         )
 
     def train(self, replay):
-        batch_size = 64
+        batch_size = 512
         batch = replay.random_batch(batch_size)
         batch = utils.batch_to_torch(batch, device=self._device)
         rewards = batch['rewards']

@@ -183,12 +183,12 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="LF_KFE" type="fixed">
+    <joint name="LF_KFE" type="revolute">
         <parent link="LF_THIGH"/>
         <child link="LF_SHANK"/>
         <origin xyz="0.0 0.109 -0.25"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
     <!-- Shank to Adapter joint -->
@@ -301,12 +301,12 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="RF_KFE" type="fixed">
+    <joint name="RF_KFE" type="revolute">
         <parent link="RF_THIGH"/>
         <child link="RF_SHANK"/>
         <origin xyz="0.0 -0.109 -0.25"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
     <!-- Shank to Adapter joint -->
@@ -419,12 +419,12 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="LH_KFE" type="fixed">
+    <joint name="LH_KFE" type="revolute">
         <parent link="LH_THIGH"/>
         <child link="LH_SHANK"/>
         <origin xyz="-0.0 0.109 -0.25"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
     <!-- Shank to Adapter joint -->
@@ -537,12 +537,12 @@
         </inertial>
     </link>
     <!-- Shank joint -->
-    <joint name="RH_KFE" type="fixed">
+    <joint name="RH_KFE" type="revolute">
         <parent link="RH_THIGH"/>
         <child link="RH_SHANK"/>
         <origin xyz="-0.0 -0.109 -0.25"/>
-        <axis xyz="0 0 0"/>
-        <limit effort="80" lower="-6.28" upper="6.28" velocity="15"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="80" lower="-0.35" upper="0.35" velocity="15"/>
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
     <!-- Shank to Adapter joint -->
