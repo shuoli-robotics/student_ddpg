@@ -27,6 +27,8 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
     def step(self, a):
         self.step_counter += 1
+        myorder = "The action at step {0} is {1}."
+        print(myorder.format(self.step_counter,a))
         self.robot.apply_action(a)
         self.scene.global_step()
         obs,state_dict = self.robot.calc_state()  # also calculates self.joints_at_limit
@@ -73,11 +75,10 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
         smoothness_cost = self.k_c * c_s * LA.norm(state_dict['delta_joint_torque'])
 
-        return max(state_dict['vel'][0] / 10.0, 0)
+        return max(state_dict['vel'][0] / 1.0, 0)
 
     def _isDone(self,state_dict):
-        if  max(abs(i) for i in state_dict['att'][0:2]) > math.radians(45):
-
+        if abs(state_dict['att'][0]) > math.radians(45) or abs(state_dict['att'][1]) > math.radians(60):
             return True
         else:
             return False

@@ -27,8 +27,8 @@ class AnymalWalkRobot(AnymalRobot):
             'pd_control', 'torque', 'velocity', 'position'
         ]
         self._control_mode = 'pd_control'
-        action_dim = 8
-        obs_dim = 41
+        action_dim = 12
+        obs_dim = 45
         self_collision = False
         initial_height = 0.6
         URDFBasedRobot.__init__(self,
@@ -80,7 +80,7 @@ class AnymalWalkRobot(AnymalRobot):
 
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
-        self.action_history = np.zeros((5000,8))
+        self.action_history = np.zeros((5000,12))
         self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
@@ -93,7 +93,7 @@ class AnymalWalkRobot(AnymalRobot):
         s = super(AnymalWalkRobot,self).reset(bullet_client)
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
-        self.action_history = np.zeros((5000,8))
+        self.action_history = np.zeros((5000,12))
         self.joint_torque_history = np.zeros((5000, 12))
         self.joint_history_pointer = -1
         self.action_history_pointer = -1
@@ -115,10 +115,9 @@ class AnymalWalkRobot(AnymalRobot):
                 # joint_pos = self.convert2pos(a[n],j.upperLimit,j.lowerLimit)
                 # joint_pos = a[n]
                 # Tune joint position controller's PD here
-                if j.joint_name[3:] != 'KFE':
-                    joint_pos = self.convert2pos(a[revolute_joint_counter],j.upperLimit,j.lowerLimit)
-                    revolute_joint_counter += 1
-                    j.set_pd_torque(joint_pos, 0.1, 0.5)
+
+                joint_pos = self.convert2pos(a[revolute_joint_counter],j.upperLimit,j.lowerLimit)
+                j.set_pd_torque(joint_pos, 0.1, 0.5)
         else:
             raise ValueError('No known control mode')
 
