@@ -18,7 +18,9 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
     # check the safety of overriding and call parent's method !!
     def reset(self,robot_cmd):
+        print("[AnymalWalkEnv] reset")
         super(AnymalWalkEnv, self).reset()
+        print("[AnymalWalkEnv] reset done")
         self.step_counter = 0
         self.k_c = 0.3
         self.robot.cmd = robot_cmd
@@ -27,8 +29,6 @@ class AnymalWalkEnv(AnymalBaseBulletEnv):
 
     def step(self, a):
         self.step_counter += 1
-        myorder = "The action at step {0} is {1}."
-        print(myorder.format(self.step_counter,a))
         self.robot.apply_action(a)
         self.scene.global_step()
         obs,state_dict = self.robot.calc_state()  # also calculates self.joints_at_limit

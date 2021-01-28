@@ -178,6 +178,7 @@ class URDFBasedRobot(XmlBasedRobot):
     self.doneLoading = 0
 
   def reset(self, bullet_client):
+    print("[URDFBasedRobot] reset")
     self._p = bullet_client
     if self.doneLoading == 0:
         self.doneLoading = 1

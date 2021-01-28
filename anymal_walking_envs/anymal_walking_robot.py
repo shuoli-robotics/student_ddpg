@@ -90,6 +90,7 @@ class AnymalWalkRobot(AnymalRobot):
         self.cmd = [1, 0.5, 0]
 
     def reset(self, bullet_client):
+        print("[AnymalWalkRobot] reset")
         s = super(AnymalWalkRobot,self).reset(bullet_client)
         self.joint_pos_history = np.zeros((5000,12))
         self.joint_vel_history = np.zeros((5000,12))
@@ -102,6 +103,7 @@ class AnymalWalkRobot(AnymalRobot):
 
     def apply_action(self, a):
         # TODO use the action mapping
+        # print("[AnymalWalkRobot] apply_action")
         assert (np.isfinite(a).all())
         if self._control_mode == 'torque':
             for n, j in enumerate(self.ordered_joints):

@@ -24,6 +24,7 @@ class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
     return self.stadium_scene
 
   def reset(self):
+    print("[AnymalBaseBulletEnv] reset")
     if (self.stateId >= 0):
       print("restoreState self.stateId:",self.stateId)
       self._p.restoreState(self.stateId)
@@ -39,8 +40,8 @@ class AnymalBaseBulletEnv(MJCFBaseBulletEnv):
       print("saving state self.stateId:",self.stateId)
 
     self.camera_adjust()
-    self.robot.robot_specific_reset(self._p)
-
+    # self.robot.robot_specific_reset(self._p)
+    print("[AnymalBaseBulletEnv] reset done")
     return r
 
   def _isDone(self):

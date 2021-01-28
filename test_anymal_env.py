@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 env = Env()
 states = env.reset([0.5,0.5,0])
 
-print(env.observation_space)
+# print(env.observation_space)
 
 for i in range(20):
     states = env.reset([0.5,0.5,0])

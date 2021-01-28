@@ -77,7 +77,7 @@ class AnymalRobot(URDFBasedRobot):
             }
 
   def robot_specific_reset(self, bullet_client):
-    print("SHI33T")
+    print("[AnymalRobot] robot_specific_reset")
     self._p = bullet_client
 
     # Reset Joints here
@@ -86,7 +86,6 @@ class AnymalRobot(URDFBasedRobot):
     self.scene.actor_introduce(self)
 
   def _reset_joint_positions(self):
-        print("SHI44T")
         for j in self.ordered_joints:
             pos = self._initial_joint_pos[j.joint_name]
             j.reset_position(pos, 0.0)
